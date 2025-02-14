@@ -930,10 +930,10 @@ def parse_rcs_ed_diff(text):
     return None
 
 
-def parse_git_binary_diff(text):
-    try:
+def parse_git_binary_diff(text: str | list[str]) -> list[Change] | None:
+    if isinstance(text, str):
         lines = text.splitlines()
-    except AttributeError:
+    else:
         lines = text
 
     changes: list[Change] = list()
