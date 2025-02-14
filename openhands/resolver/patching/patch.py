@@ -156,9 +156,9 @@ def parse_scm_header(text: str | list[str]) -> header | None:
 
 
 def parse_diff_header(text: str | list[str]) -> header | None:
-    try:
+    if isinstance(text, str):
         lines = text.splitlines()
-    except AttributeError:
+    else:
         lines = text
 
     check = [
@@ -180,9 +180,9 @@ def parse_diff_header(text: str | list[str]) -> header | None:
 
 
 def parse_diff(text: str | list[str]) -> list[Change] | None:
-    try:
+    if isinstance(text, str):
         lines = text.splitlines()
-    except AttributeError:
+    else:
         lines = text
 
     check = [
@@ -202,9 +202,9 @@ def parse_diff(text: str | list[str]) -> list[Change] | None:
 
 
 def parse_git_header(text: str | list[str]) -> header | None:
-    try:
+    if isinstance(text, str):
         lines = text.splitlines()
-    except AttributeError:
+    else:
         lines = text
 
     old_version = None
@@ -277,9 +277,9 @@ def parse_git_header(text: str | list[str]) -> header | None:
 
 
 def parse_svn_header(text: str | list[str]) -> header | None:
-    try:
+    if isinstance(text, str):
         lines = text.splitlines()
-    except AttributeError:
+    else:
         lines = text
 
     headers = findall_regex(lines, svn_header_index)
