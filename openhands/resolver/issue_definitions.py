@@ -577,7 +577,7 @@ class PRHandler(IssueHandler):
                 issue['number'], comment_id=comment_id
             )
 
-            closing_issues = self.__get_context_from_external_issues_references(
+            closing_issues_context = self.__get_context_from_external_issues_references(
                 closing_issues,
                 closing_issues_numbers,
                 body,
@@ -592,7 +592,7 @@ class PRHandler(IssueHandler):
                 number=issue['number'],
                 title=issue['title'],
                 body=body,
-                closing_issues=closing_issues,
+                closing_issues=closing_issues_context,
                 review_comments=review_comments,
                 review_threads=review_threads,
                 thread_ids=thread_ids,
