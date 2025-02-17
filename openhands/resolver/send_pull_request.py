@@ -4,6 +4,7 @@ import os
 import shutil
 import subprocess
 
+from pydantic import SecretStr
 import jinja2
 import requests
 
@@ -380,7 +381,7 @@ def send_pull_request(
     return url
 
 
-def reply_to_comment(github_token: str, comment_id: str, reply: str):
+def reply_to_comment(github_token: str, comment_id: str, reply: str) -> None:
     """Reply to a comment on a GitHub issue or pull request.
 
     Args:
@@ -417,7 +418,7 @@ def reply_to_comment(github_token: str, comment_id: str, reply: str):
     response.raise_for_status()
 
 
-def send_comment_msg(base_url: str, issue_number: int, github_token: str, msg: str):
+def send_comment_msg(base_url: str, issue_number: int, github_token: str, msg: str) -> None:
     """Send a comment message to a GitHub issue or pull request.
 
     Args:
@@ -624,7 +625,7 @@ def process_all_successful_issues(
             )
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description='Send a pull request to Github.')
     parser.add_argument(
         '--github-token',
@@ -722,7 +723,7 @@ def main():
     api_key = my_args.llm_api_key or os.environ['LLM_API_KEY']
     llm_config = LLMConfig(
         model=my_args.llm_model or os.environ['LLM_MODEL'],
-        api_key=str(api_key) if api_key else None,
+        api_key=SecretStr(api_key) if api_key else None,
         base_url=my_args.llm_base_url or os.environ.get('LLM_BASE_URL', None),
     )
 

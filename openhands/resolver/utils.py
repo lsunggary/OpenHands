@@ -63,7 +63,7 @@ def codeact_user_response(
     return msg
 
 
-def cleanup():
+def cleanup() -> None:
     print('Cleaning up child processes...')
     for process in mp.active_children():
         print(f'Terminating child process: {process.name}')
@@ -71,7 +71,7 @@ def cleanup():
         process.join()
 
 
-def prepare_dataset(dataset: pd.DataFrame, output_file: str, eval_n_limit: int):
+def prepare_dataset(dataset: pd.DataFrame, output_file: str, eval_n_limit: int) -> pd.DataFrame:
     assert 'instance_id' in dataset.columns, (
         "Expected 'instance_id' column in the dataset. You should define your own "
         "unique identifier for each instance and use it as the 'instance_id' column."
@@ -108,7 +108,7 @@ def prepare_dataset(dataset: pd.DataFrame, output_file: str, eval_n_limit: int):
 
 def reset_logger_for_multiprocessing(
     logger: logging.Logger, instance_id: str, log_dir: str
-):
+) -> None:
     """Reset the logger for multiprocessing.
 
     Save logs to a separate file for each process, instead of trying to write to the

@@ -10,6 +10,8 @@ import subprocess
 from typing import Any
 from uuid import uuid4
 
+from pydantic import SecretStr
+
 from termcolor import colored
 
 import openhands
@@ -18,6 +20,7 @@ from openhands.core.config import AgentConfig, AppConfig, LLMConfig, SandboxConf
 from openhands.core.logger import openhands_logger as logger
 from openhands.core.main import create_runtime, run_controller
 from openhands.events.action import CmdRunAction, MessageAction
+from openhands.events.event import Event
 from openhands.events.observation import (
     CmdOutputObservation,
     ErrorObservation,
@@ -43,7 +46,7 @@ AGENT_CLASS = 'CodeActAgent'
 
 def initialize_runtime(
     runtime: Runtime,
-):
+) -> None:
     """Initialize the runtime for the agent.
 
     This function is called before the runtime is used to run the agent.
@@ -194,7 +197,7 @@ async def process_issue(
     runtime = create_runtime(config)
     await runtime.connect()
 
-    def on_event(evt):
+    def on_event(evt: Event) -> None:
         logger.info(evt)
 
     runtime.event_stream.subscribe(EventStreamSubscriber.MAIN, on_event, str(uuid4()))
@@ -471,10 +474,10 @@ async def resolve_issue(
         logger.info('Finished.')
 
 
-def main():
+def main() -> None:
     import argparse
 
-    def int_or_none(value):
+    def int_or_none(value: str) -> int | None:
         if value.lower() == 'none':
             return None
         else:
@@ -593,7 +596,7 @@ def main():
     api_key = my_args.llm_api_key or os.environ['LLM_API_KEY']
     llm_config = LLMConfig(
         model=my_args.llm_model or os.environ['LLM_MODEL'],
-        api_key=str(api_key) if api_key else None,
+        api_key=SecretStr(api_key) if api_key else None,
         base_url=my_args.llm_base_url or os.environ.get('LLM_BASE_URL', None),
     )
 

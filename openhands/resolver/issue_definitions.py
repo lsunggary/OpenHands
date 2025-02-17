@@ -499,7 +499,7 @@ class PRHandler(IssueHandler):
         review_comments: list[str],
         review_threads: list[ReviewThread],
         thread_comments: list[str] | None,
-    ):
+    ) -> list[str]:
         new_issue_references = []
 
         if issue_body:
