@@ -71,7 +71,9 @@ def cleanup() -> None:
         process.join()
 
 
-def prepare_dataset(dataset: pd.DataFrame, output_file: str, eval_n_limit: int) -> pd.DataFrame:
+def prepare_dataset(
+    dataset: pd.DataFrame, output_file: str, eval_n_limit: int
+) -> pd.DataFrame:
     assert 'instance_id' in dataset.columns, (
         "Expected 'instance_id' column in the dataset. You should define your own "
         "unique identifier for each instance and use it as the 'instance_id' column."

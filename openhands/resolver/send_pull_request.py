@@ -4,9 +4,9 @@ import os
 import shutil
 import subprocess
 
-from pydantic import SecretStr
 import jinja2
 import requests
+from pydantic import SecretStr
 
 from openhands.core.config import LLMConfig
 from openhands.core.logger import openhands_logger as logger
@@ -418,7 +418,9 @@ def reply_to_comment(github_token: str, comment_id: str, reply: str) -> None:
     response.raise_for_status()
 
 
-def send_comment_msg(base_url: str, issue_number: int, github_token: str, msg: str) -> None:
+def send_comment_msg(
+    base_url: str, issue_number: int, github_token: str, msg: str
+) -> None:
     """Send a comment message to a GitHub issue or pull request.
 
     Args:

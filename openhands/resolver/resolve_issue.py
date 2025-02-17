@@ -11,7 +11,6 @@ from typing import Any
 from uuid import uuid4
 
 from pydantic import SecretStr
-
 from termcolor import colored
 
 import openhands
