@@ -9,7 +9,9 @@ from .patch import Change, diffobj
 from .snippets import remove, which
 
 
-def _apply_diff_with_subprocess(diff: diffobj, lines: list[str], reverse: bool = False) -> tuple[list[str], list[str] | None]:
+def _apply_diff_with_subprocess(
+    diff: diffobj, lines: list[str], reverse: bool = False
+) -> tuple[list[str], list[str] | None]:
     # call out to patch program
     patchexec = which('patch')
     if not patchexec:
@@ -71,7 +73,9 @@ def _reverse(changes: list[Change]) -> list[Change]:
     return [_reverse_change(c) for c in changes]
 
 
-def apply_diff(diff: diffobj, text: str | list[str], reverse: bool = False, use_patch: bool = False) -> list[str]:
+def apply_diff(
+    diff: diffobj, text: str | list[str], reverse: bool = False, use_patch: bool = False
+) -> list[str]:
     lines = text.splitlines() if isinstance(text, str) else list(text)
 
     if use_patch:
