@@ -412,6 +412,8 @@ def send_comment_msg(
         )
     else:
         print(f'Comment added to the PR: {msg}')
+
+
 def update_existing_pull_request(
     issue: Issue,
     token: str,
@@ -609,19 +611,9 @@ def process_all_successful_issues(
             )
 
 
-<<<<<<< HEAD
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Send a pull request to Github.')
-    parser.add_argument(
-        '--github-token',
-        type=str,
-        default=None,
-        help='Github token to access the repository.',
-=======
-def main():
     parser = argparse.ArgumentParser(
         description='Send a pull request to Github or Gitlab.'
->>>>>>> origin/main
     )
     parser.add_argument(
         '--token',
