@@ -194,26 +194,26 @@ async def process_issue(
     # This code looks unnecessary because these are default values in the config class
     # they're set by default if nothing else overrides them
     # FIXME we should remove them here
-    kwargs = {}
+    sandbox_config = SandboxConfig(
+        runtime_container_image=runtime_container_image,
+        enable_auto_lint=False,
+        use_host_network=False,
+        # large enough timeout, since some testcases take very long to run
+        timeout=300,
+    )
+
     if os.getenv('GITLAB_CI') == 'True':
-        kwargs['local_runtime_url'] = os.getenv('LOCAL_RUNTIME_URL', 'http://localhost')
+        sandbox_config.local_runtime_url = os.getenv('LOCAL_RUNTIME_URL', 'http://localhost')
         user_id = os.getuid() if hasattr(os, 'getuid') else 1000
         if user_id == 0:
-            kwargs['user_id'] = get_unique_uid()
+            sandbox_config.user_id = get_unique_uid()
 
     config = AppConfig(
         default_agent='CodeActAgent',
         runtime='docker',
         max_budget_per_task=4,
         max_iterations=max_iterations,
-        sandbox=SandboxConfig(
-            runtime_container_image=runtime_container_image,
-            enable_auto_lint=False,
-            use_host_network=False,
-            # large enough timeout, since some testcases take very long to run
-            timeout=300,
-            **kwargs,
-        ),
+        sandbox=sandbox_config,
         # do not mount workspace
         workspace_base=workspace_base,
         workspace_mount_path=workspace_base,
